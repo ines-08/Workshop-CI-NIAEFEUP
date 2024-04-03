@@ -1,0 +1,30 @@
+name: 'Workshop CI'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cinescope
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.13.7
+
+      - name: Format
+        run: dart format . --set-exit-if-changed
+
+      - name: Analyse
+        run: flutter analyze
